@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Electron Test App</title>  
+  </head>
+
+  <body>
+    使用しているバージョン<br/>
+    Node.js: <script>document.write(process.versions.node)</script><br/>
+    Chromium: <script>document.write(process.versions.chrome)</script><br/>
+    Electron: <script>document.write(process.versions.electron)</script><br/>
+
+    <div>
+      <div id="app"></div>
+    </div>
+
+    <script>require("./dist/renderer/app.js")</script>
+  </body>
+</html>

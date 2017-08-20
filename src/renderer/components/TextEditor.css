@@ -1,0 +1,11 @@
+.editorBody {
+  padding-top: 8px;
+}
+
+#editor {
+  width: 100%;
+  height: 40vw;
+  margin-right: 8px;
+  /* textareaのリサイズを無効化する */
+  resize: none;
+}

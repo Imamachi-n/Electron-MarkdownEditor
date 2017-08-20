@@ -1,0 +1,25 @@
+body {
+    height: 100%;
+}
+
+img {
+    width: 45%;
+}
+
+table {
+    width: 90%;
+    margin-bottom: 10px;
+}
+
+table th {
+    border-bottom: 1px solid #ccc;
+}
+
+table td {
+    border-bottom: 1px solid #ccc;
+}
+
+h1 {
+    padding-bottom: 10px;
+    border-bottom: 4px solid #EDEDED;
+}

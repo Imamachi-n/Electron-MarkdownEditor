@@ -1,0 +1,10 @@
+.previewerBody {
+  padding-top: 8px;
+}
+
+.previewer {
+  overflow: auto;
+  width: 100%;
+  height: 40vw;
+  padding-right: 8px;
+}
