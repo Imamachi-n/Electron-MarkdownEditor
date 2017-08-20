@@ -1,2 +1,0 @@
-cd /mnt/c/Users/imama/Desktop/Electron_project/electron_movie_length
-
