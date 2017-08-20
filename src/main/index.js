@@ -1,10 +1,17 @@
 import { app, BrowserWindow } from 'electron'
+
 import setAppMenu from './setAppMenu'
 import createMainWindow from './createMainWindow'
+
+// 名前をつけて保存
+import showSaveAsNewFileDialog from './showSaveAsNewFileDialog'
+import createFileManager from './createFileManager'
 
 // ガーベジコレクションによりウインドウが閉じないように、
 // BrowserWindowインスタンスをグローバル宣言
 let mainWindow
+
+let fileManager
 
 // メニューバーの操作
 function openFile() {
@@ -17,6 +24,12 @@ function saveFile() {
 
 function saveAsNewFile() {
   console.log("saveAsNewFile")
+  // すべてのPromiseがresolveされた場合の処理
+  Promise.all([ showSaveAsNewFileDialog(), mainWindow.requestText() ])
+    .then(([filePath, text]) => fileManager.saveFile(filePath, text))
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 function exportPDF() {
@@ -26,6 +39,8 @@ function exportPDF() {
 // Electronを起動したときの処理
 app.on('ready', () => {
   mainWindow = createMainWindow()
+  fileManager = createFileManager()
+
   const options = { openFile, saveFile, saveAsNewFile, exportPDF }
   setAppMenu(options)
 })

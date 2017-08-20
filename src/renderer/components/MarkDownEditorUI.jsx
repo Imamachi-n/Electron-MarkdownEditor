@@ -1,5 +1,6 @@
 import React from 'react'
 import Grid from 'material-ui/Grid'
+import { ipcRenderer } from 'electron'
 
 import Editor from './TextEditor'
 import Previewer from './HTMLPreviewer'
@@ -11,6 +12,18 @@ export default class MarkDownEditorUI extends React.Component {
     super(props)
     this.handleChange = this.handleChange.bind(this)
     this.state = { value: '' }
+  }
+
+  // イベントの購読の開始
+  componentDidMount() {
+    ipcRenderer.on('REQUEST_TEXT', () => {
+      ipcRenderer.send('REPLY_TEXT', this.state.value)
+    })
+  }
+
+  // イベントの購読の解除
+  componentWillUnmount() {
+    ipcRenderer.removeAllListeners();
   }
 
   handleChange(e) {
