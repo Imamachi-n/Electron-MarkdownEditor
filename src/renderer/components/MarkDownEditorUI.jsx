@@ -16,8 +16,14 @@ export default class MarkDownEditorUI extends React.Component {
 
   // イベントの購読の開始
   componentDidMount() {
+    // MainプロセスからのRequestに応じて、テキストを送る
     ipcRenderer.on('REQUEST_TEXT', () => {
       ipcRenderer.send('REPLY_TEXT', this.state.value)
+    })
+
+    // Mainプロセスからテキストを受け取る
+    ipcRenderer.on('SEND_TEXT', (event, text) => {
+      this.setState({ value: text })
     })
   }
 
@@ -38,7 +44,7 @@ export default class MarkDownEditorUI extends React.Component {
             <h3>Input</h3>
             <Editor
               onChange={this.handleChange}
-              defaultValue={this.state.value}
+              value={this.state.value}
             />
           </Grid>
 

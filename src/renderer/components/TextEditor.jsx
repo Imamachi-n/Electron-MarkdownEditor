@@ -7,7 +7,7 @@ export default function Editor(props) {
       <textarea
         id={style.editor}
         onChange={props.onChange}
-        defaultValue={props.defaultValue}/>
+        value={props.value}/>
     </div>
   )
 }

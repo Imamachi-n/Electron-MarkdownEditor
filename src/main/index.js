@@ -5,6 +5,8 @@ import createMainWindow from './createMainWindow'
 
 // 名前をつけて保存
 import showSaveAsNewFileDialog from './showSaveAsNewFileDialog'
+// ファイルを開く
+import showOpenFileDialog from './showOpenFileDialog'
 import createFileManager from './createFileManager'
 
 // ガーベジコレクションによりウインドウが閉じないように、
@@ -13,15 +15,22 @@ let mainWindow
 
 let fileManager
 
-// メニューバーの操作
+// ファイルを開く
 function openFile() {
   console.log("openFile")
+  showOpenFileDialog()
+  .then((filePath) => fileManager.readFile(filePath))
+  .then((text) => mainWindow.sendText(text))
+  .catch((error) => {
+    console.log(error)
+  })
 }
 
 function saveFile() {
   console.log("saveFile")
 }
 
+// 名前を指定してファイルを保存する
 function saveAsNewFile() {
   console.log("saveAsNewFile")
   // すべてのPromiseがresolveされた場合の処理

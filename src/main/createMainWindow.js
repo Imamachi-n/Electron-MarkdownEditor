@@ -26,9 +26,14 @@ class MainWindow {
     return new Promise(
       (resolve) => {
         this.window.webContents.send('REQUEST_TEXT')
-        ipcMain.once('REPLY_TEXT', (e_, text) => resolve(text))
+        ipcMain.once('REPLY_TEXT', (event, text) => resolve(text))
       }
     )
+  }
+
+  // Rendererプロセスへテキストを送る
+  sendText(text) {
+    this.window.webContents.send('SEND_TEXT', text)
   }
 }
 

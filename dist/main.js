@@ -60,19 +60,19 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 702);
+/******/ 	return __webpack_require__(__webpack_require__.s = 703);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 24:
+/***/ 23:
 /***/ (function(module, exports) {
 
 module.exports = require("electron");
 
 /***/ }),
 
-/***/ 702:
+/***/ 703:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -152,13 +152,13 @@ module.exports = require("electron");
   /******/__webpack_require__.p = "";
   /******/
   /******/ // Load entry module and return exports
-  /******/return __webpack_require__(__webpack_require__.s = 208);
+  /******/return __webpack_require__(__webpack_require__.s = 209);
   /******/
 })(
 /************************************************************************/
 /******/{
 
-  /***/208:
+  /***/209:
   /***/function _(module, exports, __webpack_require__) {
 
     "use strict";
@@ -191,22 +191,28 @@ module.exports = require("electron");
 
     // 名前をつけて保存
 
+    // ファイルを開く
 
-    var _electron = __webpack_require__(24);
 
-    var _setAppMenu = __webpack_require__(209);
+    var _electron = __webpack_require__(23);
+
+    var _setAppMenu = __webpack_require__(210);
 
     var _setAppMenu2 = _interopRequireDefault(_setAppMenu);
 
-    var _createMainWindow = __webpack_require__(210);
+    var _createMainWindow = __webpack_require__(211);
 
     var _createMainWindow2 = _interopRequireDefault(_createMainWindow);
 
-    var _showSaveAsNewFileDialog = __webpack_require__(211);
+    var _showSaveAsNewFileDialog = __webpack_require__(212);
 
     var _showSaveAsNewFileDialog2 = _interopRequireDefault(_showSaveAsNewFileDialog);
 
-    var _createFileManager = __webpack_require__(212);
+    var _showOpenFileDialog = __webpack_require__(213);
+
+    var _showOpenFileDialog2 = _interopRequireDefault(_showOpenFileDialog);
+
+    var _createFileManager = __webpack_require__(214);
 
     var _createFileManager2 = _interopRequireDefault(_createFileManager);
 
@@ -220,15 +226,23 @@ module.exports = require("electron");
 
     var fileManager = void 0;
 
-    // メニューバーの操作
+    // ファイルを開く
     function openFile() {
       console.log("openFile");
+      (0, _showOpenFileDialog2.default)().then(function (filePath) {
+        return fileManager.readFile(filePath);
+      }).then(function (text) {
+        return mainWindow.sendText(text);
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
 
     function saveFile() {
       console.log("saveFile");
     }
 
+    // 名前を指定してファイルを保存する
     function saveAsNewFile() {
       console.log("saveAsNewFile");
       // すべてのPromiseがresolveされた場合の処理
@@ -274,7 +288,7 @@ module.exports = require("electron");
     /***/
   },
 
-  /***/209:
+  /***/210:
   /***/function _(module, exports, __webpack_require__) {
 
     "use strict";
@@ -283,7 +297,7 @@ module.exports = require("electron");
       value: true
     });
 
-    var _electron = __webpack_require__(24);
+    var _electron = __webpack_require__(23);
 
     function setAppMenu(options) {
       var template = [{
@@ -320,7 +334,7 @@ module.exports = require("electron");
     /***/
   },
 
-  /***/210:
+  /***/211:
   /***/function _(module, exports, __webpack_require__) {
 
     "use strict";
@@ -339,7 +353,7 @@ module.exports = require("electron");
       };
     }();
 
-    var _electron = __webpack_require__(24);
+    var _electron = __webpack_require__(23);
 
     var _path = __webpack_require__(79);
 
@@ -391,10 +405,18 @@ module.exports = require("electron");
 
           return new Promise(function (resolve) {
             _this2.window.webContents.send('REQUEST_TEXT');
-            _electron.ipcMain.once('REPLY_TEXT', function (e_, text) {
+            _electron.ipcMain.once('REPLY_TEXT', function (event, text) {
               return resolve(text);
             });
           });
+        }
+
+        // Rendererプロセスへテキストを送る
+
+      }, {
+        key: 'sendText',
+        value: function sendText(text) {
+          this.window.webContents.send('SEND_TEXT', text);
         }
       }]);
 
@@ -410,7 +432,7 @@ module.exports = require("electron");
     /***/
   },
 
-  /***/211:
+  /***/212:
   /***/function _(module, exports, __webpack_require__) {
 
     "use strict";
@@ -419,7 +441,7 @@ module.exports = require("electron");
       value: true
     });
 
-    var _electron = __webpack_require__(24);
+    var _electron = __webpack_require__(23);
 
     function showSaveAsNewFileDialog() {
       return new Promise(function (resolve, reject) {
@@ -444,7 +466,42 @@ module.exports = require("electron");
     /***/
   },
 
-  /***/212:
+  /***/213:
+  /***/function _(module, exports, __webpack_require__) {
+
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = showOpenFileDialog;
+
+    var _electron = __webpack_require__(23);
+
+    // ファイルを開くためのダイアログを呼び出す
+    function showOpenFileDialog() {
+      return new Promise(function (resolve, reject) {
+        var files = _electron.dialog.showOpenDialog({
+          title: "open",
+          propaties: ['openFile'],
+          filters: [{
+            name: 'markdown file',
+            extensions: ['md']
+          }]
+        });
+
+        if (files && files.length > 0) {
+          resolve(files[0]);
+        } else {
+          reject();
+        }
+      });
+    }
+
+    /***/
+  },
+
+  /***/214:
   /***/function _(module, exports, __webpack_require__) {
 
     "use strict";
@@ -463,7 +520,7 @@ module.exports = require("electron");
       };
     }();
 
-    var _fs = __webpack_require__(213);
+    var _fs = __webpack_require__(81);
 
     var _fs2 = _interopRequireDefault(_fs);
 
@@ -484,10 +541,23 @@ module.exports = require("electron");
 
       _createClass(FileManager, [{
         key: 'saveFile',
+
+        // ファイルの保存
         value: function saveFile(filePath, text) {
           return new Promise(function (resolve) {
             _fs2.default.writeFileSync(filePath, text);
             resolve();
+          });
+        }
+
+        // ファイルの読み込み
+
+      }, {
+        key: 'readFile',
+        value: function readFile(filePath) {
+          return new Promise(function (resolve) {
+            var text = _fs2.default.readFileSync(filePath, 'utf-8');
+            resolve(text);
           });
         }
       }]);
@@ -504,18 +574,10 @@ module.exports = require("electron");
     /***/
   },
 
-  /***/213:
+  /***/23:
   /***/function _(module, exports) {
 
-    module.exports = __webpack_require__(81);
-
-    /***/
-  },
-
-  /***/24:
-  /***/function _(module, exports) {
-
-    module.exports = __webpack_require__(24);
+    module.exports = __webpack_require__(23);
 
     /***/
   },
@@ -532,6 +594,14 @@ module.exports = require("electron");
   /***/function _(module, exports) {
 
     module.exports = __webpack_require__(80);
+
+    /***/
+  },
+
+  /***/81:
+  /***/function _(module, exports) {
+
+    module.exports = __webpack_require__(81);
 
     /***/
   }

@@ -75,8 +75,10 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 // 名前をつけて保存
 
+// ファイルを開く
 
-var _electron = __webpack_require__(24);
+
+var _electron = __webpack_require__(23);
 
 var _setAppMenu = __webpack_require__(210);
 
@@ -90,7 +92,11 @@ var _showSaveAsNewFileDialog = __webpack_require__(212);
 
 var _showSaveAsNewFileDialog2 = _interopRequireDefault(_showSaveAsNewFileDialog);
 
-var _createFileManager = __webpack_require__(213);
+var _showOpenFileDialog = __webpack_require__(213);
+
+var _showOpenFileDialog2 = _interopRequireDefault(_showOpenFileDialog);
+
+var _createFileManager = __webpack_require__(214);
 
 var _createFileManager2 = _interopRequireDefault(_createFileManager);
 
@@ -102,15 +108,23 @@ var mainWindow = void 0;
 
 var fileManager = void 0;
 
-// メニューバーの操作
+// ファイルを開く
 function openFile() {
   console.log("openFile");
+  (0, _showOpenFileDialog2.default)().then(function (filePath) {
+    return fileManager.readFile(filePath);
+  }).then(function (text) {
+    return mainWindow.sendText(text);
+  }).catch(function (error) {
+    console.log(error);
+  });
 }
 
 function saveFile() {
   console.log("saveFile");
 }
 
+// 名前を指定してファイルを保存する
 function saveAsNewFile() {
   console.log("saveAsNewFile");
   // すべてのPromiseがresolveされた場合の処理
@@ -165,7 +179,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _electron = __webpack_require__(24);
+var _electron = __webpack_require__(23);
 
 function setAppMenu(options) {
   var template = [{
@@ -213,7 +227,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _electron = __webpack_require__(24);
+var _electron = __webpack_require__(23);
 
 var _path = __webpack_require__(79);
 
@@ -259,10 +273,18 @@ var MainWindow = function () {
 
       return new Promise(function (resolve) {
         _this2.window.webContents.send('REQUEST_TEXT');
-        _electron.ipcMain.once('REPLY_TEXT', function (e_, text) {
+        _electron.ipcMain.once('REPLY_TEXT', function (event, text) {
           return resolve(text);
         });
       });
+    }
+
+    // Rendererプロセスへテキストを送る
+
+  }, {
+    key: 'sendText',
+    value: function sendText(text) {
+      this.window.webContents.send('SEND_TEXT', text);
     }
   }]);
 
@@ -287,7 +309,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _electron = __webpack_require__(24);
+var _electron = __webpack_require__(23);
 
 function showSaveAsNewFileDialog() {
   return new Promise(function (resolve, reject) {
@@ -320,6 +342,41 @@ exports.default = showSaveAsNewFileDialog;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = showOpenFileDialog;
+
+var _electron = __webpack_require__(23);
+
+// ファイルを開くためのダイアログを呼び出す
+function showOpenFileDialog() {
+  return new Promise(function (resolve, reject) {
+    var files = _electron.dialog.showOpenDialog({
+      title: "open",
+      propaties: ['openFile'],
+      filters: [{
+        name: 'markdown file',
+        extensions: ['md']
+      }]
+    });
+
+    if (files && files.length > 0) {
+      resolve(files[0]);
+    } else {
+      reject();
+    }
+  });
+}
+
+/***/ }),
+
+/***/ 214:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -338,10 +395,23 @@ var FileManager = function () {
 
   _createClass(FileManager, [{
     key: 'saveFile',
+
+    // ファイルの保存
     value: function saveFile(filePath, text) {
       return new Promise(function (resolve) {
         _fs2.default.writeFileSync(filePath, text);
         resolve();
+      });
+    }
+
+    // ファイルの読み込み
+
+  }, {
+    key: 'readFile',
+    value: function readFile(filePath) {
+      return new Promise(function (resolve) {
+        var text = _fs2.default.readFileSync(filePath, 'utf-8');
+        resolve(text);
       });
     }
   }]);
@@ -357,7 +427,7 @@ exports.default = createFileManger;
 
 /***/ }),
 
-/***/ 24:
+/***/ 23:
 /***/ (function(module, exports) {
 
 module.exports = require("electron");
