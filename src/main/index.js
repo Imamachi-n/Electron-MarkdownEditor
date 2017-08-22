@@ -28,6 +28,17 @@ function openFile() {
 
 function saveFile() {
   console.log("saveFile")
+  // ファイルが作成されていなかった場合
+  if (!fileManager.filePath) {
+    saveAsNewFile()
+    return
+  }
+
+  mainWindow.requestText()
+    .then((text) => fileManager.overwriteFile(text))
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 // 名前を指定してファイルを保存する

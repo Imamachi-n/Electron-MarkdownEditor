@@ -122,6 +122,17 @@ function openFile() {
 
 function saveFile() {
   console.log("saveFile");
+  // ファイルが作成されていなかった場合
+  if (!fileManager.filePath) {
+    saveAsNewFile();
+    return;
+  }
+
+  mainWindow.requestText().then(function (text) {
+    return fileManager.overwriteFile(text);
+  }).catch(function (error) {
+    console.log(error);
+  });
 }
 
 // 名前を指定してファイルを保存する
@@ -391,15 +402,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var FileManager = function () {
   function FileManager() {
     _classCallCheck(this, FileManager);
+
+    this.filePath = '';
   }
+
+  // ファイルの保存
+
 
   _createClass(FileManager, [{
     key: 'saveFile',
-
-    // ファイルの保存
     value: function saveFile(filePath, text) {
+      var _this = this;
+
       return new Promise(function (resolve) {
         _fs2.default.writeFileSync(filePath, text);
+        _this.filePath = filePath; // ファイルパスを保持
         resolve();
       });
     }
@@ -409,10 +426,21 @@ var FileManager = function () {
   }, {
     key: 'readFile',
     value: function readFile(filePath) {
+      var _this2 = this;
+
       return new Promise(function (resolve) {
         var text = _fs2.default.readFileSync(filePath, 'utf-8');
+        _this2.filePath = filePath; // ファイルパスを保持
         resolve(text);
       });
+    }
+
+    // ファイルの上書き
+
+  }, {
+    key: 'overwriteFile',
+    value: function overwriteFile(text) {
+      return this.saveFile(this.filePath, text);
     }
   }]);
 
