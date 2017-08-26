@@ -105,7 +105,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // ガーベジコレクションによりウインドウが閉じないように、
 // BrowserWindowインスタンスをグローバル宣言
 var mainWindow = void 0;
-
 var fileManager = void 0;
 
 // ファイルを開く
@@ -150,6 +149,11 @@ function saveAsNewFile() {
   });
 }
 
+// スクリーンキャプチャ
+function screenCapture() {
+  console.log("ScreenCapture");
+}
+
 function exportPDF() {
   console.log("exportPDF");
 }
@@ -159,7 +163,7 @@ _electron.app.on('ready', function () {
   mainWindow = (0, _createMainWindow2.default)();
   fileManager = (0, _createFileManager2.default)();
 
-  var options = { openFile: openFile, saveFile: saveFile, saveAsNewFile: saveAsNewFile, exportPDF: exportPDF };
+  var options = { openFile: openFile, saveFile: saveFile, saveAsNewFile: saveAsNewFile, exportPDF: exportPDF, screenCapture: screenCapture };
   (0, _setAppMenu2.default)(options);
 });
 
@@ -206,7 +210,9 @@ function setAppMenu(options) {
       } }, { label: "Exit", accelerator: "CmdOrCtrl+Q", role: "quit" }]
   }, {
     label: "Edit",
-    submenu: [{ label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" }, { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" }, { label: "Cut", accelerator: "CmdOrCtrl+X", role: "cut" }, { label: "Select All", accelerator: "CmdOrCtrl+A", role: "selectall" }]
+    submenu: [{ label: "ScreenCapture", accelerator: "Alt+CmdOrCtrl+P", click: function click() {
+        return options.screenCapture();
+      } }, { label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" }, { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" }, { label: "Cut", accelerator: "CmdOrCtrl+X", role: "cut" }, { label: "Select All", accelerator: "CmdOrCtrl+A", role: "selectall" }]
   }, {
     label: "View",
     submenu: [{

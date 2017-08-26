@@ -1,2 +1,2 @@
-node_modules\.bin\webpack .
+node_modules\.bin\webpack . --display-error-details
 pause

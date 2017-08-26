@@ -30076,7 +30076,12 @@ var MarkDownEditorUI = function (_React$Component) {
   }, {
     key: 'handleChange',
     value: function handleChange(e) {
-      this.setState({ value: e.target.value });
+      var curValue = e.target.value;
+      // 全角を半角に変換
+      var newValue = curValue.replace(/＃＃＃＃＃＃　/g, '###### ').replace(/＃＃＃＃＃　/g, '##### ').replace(/＃＃＃＃　/g, '#### ').replace(/＃＃＃　/g, '### ').replace(/＃＃　/g, '## ').replace(/＃　/g, '# ');
+      newValue = newValue.replace(/＊　/g, '* ');
+      this.setState({ value: newValue });
+      // console.log(newValue)
     }
   }, {
     key: 'render',
@@ -61741,7 +61746,7 @@ function MaterialUIButtonTest(props) {
     return _react2.default.createElement(
         _Button2.default,
         { raised: true, color: 'accent' },
-        'Save'
+        'Screen Shot'
     );
 }
 

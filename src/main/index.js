@@ -12,7 +12,6 @@ import createFileManager from './createFileManager'
 // ガーベジコレクションによりウインドウが閉じないように、
 // BrowserWindowインスタンスをグローバル宣言
 let mainWindow
-
 let fileManager
 
 // ファイルを開く
@@ -52,6 +51,11 @@ function saveAsNewFile() {
     })
 }
 
+// スクリーンキャプチャ
+function screenCapture() {
+  console.log("ScreenCapture")
+}
+
 function exportPDF() {
   console.log("exportPDF")
 }
@@ -61,7 +65,7 @@ app.on('ready', () => {
   mainWindow = createMainWindow()
   fileManager = createFileManager()
 
-  const options = { openFile, saveFile, saveAsNewFile, exportPDF }
+  const options = { openFile, saveFile, saveAsNewFile, exportPDF, screenCapture }
   setAppMenu(options)
 })
 

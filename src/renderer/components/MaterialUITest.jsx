@@ -5,7 +5,7 @@ import Button from 'material-ui/Button'
 export default function MaterialUIButtonTest(props) {
     return (
         <Button raised color="accent">
-            Save
+            Screen Shot
         </Button>
     )
 }

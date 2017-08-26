@@ -223,7 +223,6 @@ module.exports = require("electron");
     // ガーベジコレクションによりウインドウが閉じないように、
     // BrowserWindowインスタンスをグローバル宣言
     var mainWindow = void 0;
-
     var fileManager = void 0;
 
     // ファイルを開く
@@ -240,6 +239,17 @@ module.exports = require("electron");
 
     function saveFile() {
       console.log("saveFile");
+      // ファイルが作成されていなかった場合
+      if (!fileManager.filePath) {
+        saveAsNewFile();
+        return;
+      }
+
+      mainWindow.requestText().then(function (text) {
+        return fileManager.overwriteFile(text);
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
 
     // 名前を指定してファイルを保存する
@@ -257,6 +267,11 @@ module.exports = require("electron");
       });
     }
 
+    // スクリーンキャプチャ
+    function screenCapture() {
+      console.log("ScreenCapture");
+    }
+
     function exportPDF() {
       console.log("exportPDF");
     }
@@ -266,7 +281,7 @@ module.exports = require("electron");
       mainWindow = (0, _createMainWindow2.default)();
       fileManager = (0, _createFileManager2.default)();
 
-      var options = { openFile: openFile, saveFile: saveFile, saveAsNewFile: saveAsNewFile, exportPDF: exportPDF };
+      var options = { openFile: openFile, saveFile: saveFile, saveAsNewFile: saveAsNewFile, exportPDF: exportPDF, screenCapture: screenCapture };
       (0, _setAppMenu2.default)(options);
     });
 
@@ -313,7 +328,9 @@ module.exports = require("electron");
           } }, { label: "Exit", accelerator: "CmdOrCtrl+Q", role: "quit" }]
       }, {
         label: "Edit",
-        submenu: [{ label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" }, { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" }, { label: "Cut", accelerator: "CmdOrCtrl+X", role: "cut" }, { label: "Select All", accelerator: "CmdOrCtrl+A", role: "selectall" }]
+        submenu: [{ label: "ScreenCapture", accelerator: "Alt+CmdOrCtrl+P", click: function click() {
+            return options.screenCapture();
+          } }, { label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" }, { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" }, { label: "Cut", accelerator: "CmdOrCtrl+X", role: "cut" }, { label: "Select All", accelerator: "CmdOrCtrl+A", role: "selectall" }]
       }, {
         label: "View",
         submenu: [{
@@ -537,15 +554,21 @@ module.exports = require("electron");
     var FileManager = function () {
       function FileManager() {
         _classCallCheck(this, FileManager);
+
+        this.filePath = '';
       }
+
+      // ファイルの保存
+
 
       _createClass(FileManager, [{
         key: 'saveFile',
-
-        // ファイルの保存
         value: function saveFile(filePath, text) {
+          var _this = this;
+
           return new Promise(function (resolve) {
             _fs2.default.writeFileSync(filePath, text);
+            _this.filePath = filePath; // ファイルパスを保持
             resolve();
           });
         }
@@ -555,10 +578,21 @@ module.exports = require("electron");
       }, {
         key: 'readFile',
         value: function readFile(filePath) {
+          var _this2 = this;
+
           return new Promise(function (resolve) {
             var text = _fs2.default.readFileSync(filePath, 'utf-8');
+            _this2.filePath = filePath; // ファイルパスを保持
             resolve(text);
           });
+        }
+
+        // ファイルの上書き
+
+      }, {
+        key: 'overwriteFile',
+        value: function overwriteFile(text) {
+          return this.saveFile(this.filePath, text);
         }
       }]);
 

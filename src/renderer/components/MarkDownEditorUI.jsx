@@ -33,7 +33,12 @@ export default class MarkDownEditorUI extends React.Component {
   }
 
   handleChange(e) {
-    this.setState({value: e.target.value})
+    const curValue = e.target.value
+    // 全角を半角に変換
+    let newValue = curValue.replace(/＃＃＃＃＃＃　/g, '###### ').replace(/＃＃＃＃＃　/g, '##### ').replace(/＃＃＃＃　/g, '#### ').replace(/＃＃＃　/g, '### ').replace(/＃＃　/g, '## ').replace(/＃　/g, '# ')
+    newValue = newValue.replace(/＊　/g, '* ')
+    this.setState({value: newValue})
+    // console.log(newValue)
   }
 
   render() {

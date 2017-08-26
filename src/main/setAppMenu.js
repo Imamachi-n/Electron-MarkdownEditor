@@ -16,6 +16,7 @@ function setAppMenu(options) {
     {
       label: "Edit",
       submenu: [
+        { label: "ScreenCapture", accelerator: "Alt+CmdOrCtrl+P", click: () => options.screenCapture() },
         { label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" },
         { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" },
         { label: "Cut", accelerator: "CmdOrCtrl+X", role: "cut" },
