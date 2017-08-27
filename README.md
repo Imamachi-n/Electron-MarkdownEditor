@@ -1,8 +1,8 @@
 # Electron-MarkdownEditor
 Electronを使ったMarkdownエディタ
 
-# デモ（あくまで作成中のものです）
+### デモ（あくまで作成中のものです）
 ![](testImg.gif)
 
-# デモ（PDFプレビュー）
+### デモ（PDFプレビュー）
 ![](testImg-PDF.gif)
