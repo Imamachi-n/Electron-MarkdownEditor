@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, screen } from 'electron'
 
 import setAppMenu from './setAppMenu'
 import createMainWindow from './createMainWindow'
@@ -10,6 +10,8 @@ import showOpenFileDialog from './showOpenFileDialog'
 import createFileManager from './createFileManager'
 // PDF作成
 import createPDFWindow from './createPDFWindow'
+// スクリーンキャプチャ
+import createScreenCaptureWindow from './createScreenCaptureWindow'
 
 // ガーベジコレクションによりウインドウが閉じないように、
 // BrowserWindowインスタンスをグローバル宣言
@@ -56,6 +58,10 @@ function saveAsNewFile() {
 // スクリーンキャプチャ
 function screenCapture() {
   console.log("ScreenCapture")
+  const display = screen.getAllDisplays()[0]
+  console.log(display)    // デバック用
+  const {x, y, width, height} = display.bounds
+  createScreenCaptureWindow(mainWindow, x, y, width, height)
 }
 
 function exportPDF() {

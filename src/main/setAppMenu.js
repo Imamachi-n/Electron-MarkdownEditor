@@ -7,8 +7,8 @@ function setAppMenu(options) {
       submenu: [
         { label: "Open", accelerator: "CmdOrCtrl+O", click: () => options.openFile() },
         { label: "Save", accelerator: "CmdOrCtrl+S", click: () => options.saveFile() },
-        { label: "Save As ...", click: () => options.saveAsNewFile() },
-        { label: "Export PDF", click: () => options.exportPDF() },
+        { label: "Save As ...", accelerator: "Alt+CmdOrCtrl+S", click: () => options.saveAsNewFile() },
+        { label: "Export PDF", accelerator: "CmdOrCtrl+P", click: () => options.exportPDF() },
         { label: "Exit", accelerator: "CmdOrCtrl+Q", role: "quit" }
       ]
     },

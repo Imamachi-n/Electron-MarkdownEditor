@@ -65,20 +65,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ 124:
-/***/ (function(module, exports) {
-
-module.exports = require("path");
-
-/***/ }),
-
-/***/ 125:
-/***/ (function(module, exports) {
-
-module.exports = require("url");
-
-/***/ }),
-
 /***/ 137:
 /***/ (function(module, exports) {
 
@@ -86,7 +72,7 @@ module.exports = require("fs");
 
 /***/ }),
 
-/***/ 26:
+/***/ 20:
 /***/ (function(module, exports) {
 
 module.exports = require("electron");
@@ -107,8 +93,10 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 // PDF作成
 
+// スクリーンキャプチャ
 
-var _electron = __webpack_require__(26);
+
+var _electron = __webpack_require__(20);
 
 var _setAppMenu = __webpack_require__(549);
 
@@ -133,6 +121,10 @@ var _createFileManager2 = _interopRequireDefault(_createFileManager);
 var _createPDFWindow = __webpack_require__(554);
 
 var _createPDFWindow2 = _interopRequireDefault(_createPDFWindow);
+
+var _createScreenCaptureWindow = __webpack_require__(555);
+
+var _createScreenCaptureWindow2 = _interopRequireDefault(_createScreenCaptureWindow);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -186,6 +178,15 @@ function saveAsNewFile() {
 // スクリーンキャプチャ
 function screenCapture() {
   console.log("ScreenCapture");
+  var display = _electron.screen.getAllDisplays()[0];
+  console.log(display); // デバック用
+  var _display$bounds = display.bounds,
+      x = _display$bounds.x,
+      y = _display$bounds.y,
+      width = _display$bounds.width,
+      height = _display$bounds.height;
+
+  (0, _createScreenCaptureWindow2.default)(mainWindow, x, y, width, height);
 }
 
 function exportPDF() {
@@ -233,7 +234,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _electron = __webpack_require__(26);
+var _electron = __webpack_require__(20);
 
 function setAppMenu(options) {
   var template = [{
@@ -242,9 +243,9 @@ function setAppMenu(options) {
         return options.openFile();
       } }, { label: "Save", accelerator: "CmdOrCtrl+S", click: function click() {
         return options.saveFile();
-      } }, { label: "Save As ...", click: function click() {
+      } }, { label: "Save As ...", accelerator: "Alt+CmdOrCtrl+S", click: function click() {
         return options.saveAsNewFile();
-      } }, { label: "Export PDF", click: function click() {
+      } }, { label: "Export PDF", accelerator: "CmdOrCtrl+P", click: function click() {
         return options.exportPDF();
       } }, { label: "Exit", accelerator: "CmdOrCtrl+Q", role: "quit" }]
   }, {
@@ -283,13 +284,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _electron = __webpack_require__(26);
+var _electron = __webpack_require__(20);
 
-var _path = __webpack_require__(124);
+var _path = __webpack_require__(83);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _url = __webpack_require__(125);
+var _url = __webpack_require__(84);
 
 var _url2 = _interopRequireDefault(_url);
 
@@ -365,7 +366,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _electron = __webpack_require__(26);
+var _electron = __webpack_require__(20);
 
 function showSaveAsNewFileDialog() {
   return new Promise(function (resolve, reject) {
@@ -400,7 +401,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = showOpenFileDialog;
 
-var _electron = __webpack_require__(26);
+var _electron = __webpack_require__(20);
 
 // ファイルを開くためのダイアログを呼び出す
 function showOpenFileDialog() {
@@ -512,13 +513,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _electron = __webpack_require__(26);
+var _electron = __webpack_require__(20);
 
-var _path = __webpack_require__(124);
+var _path = __webpack_require__(83);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _url = __webpack_require__(125);
+var _url = __webpack_require__(84);
 
 var _url2 = _interopRequireDefault(_url);
 
@@ -574,6 +575,66 @@ function createPDFWindow(contents, fileManager) {
 }
 
 exports.default = createPDFWindow;
+
+/***/ }),
+
+/***/ 555:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = createScreenCaptureWindow;
+
+var _electron = __webpack_require__(20);
+
+var _path = __webpack_require__(83);
+
+var _path2 = _interopRequireDefault(_path);
+
+var _url = __webpack_require__(84);
+
+var _url2 = _interopRequireDefault(_url);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function createScreenCaptureWindow(mainWindow, x, y, width, height) {
+  // constructor(props) {
+  // ウインドウの作成
+  mainWindow.window = new _electron.BrowserWindow({
+    frame: false,
+    transparent: true,
+    alwaysOnTop: true,
+    x: x,
+    y: y,
+    width: width,
+    height: height
+  });
+  // }
+}
+
+// function createScreenCaptureWindow() {
+//   return new ScreenCaptureWindow()
+// }
+
+// export default createScreenCaptureWindow
+
+/***/ }),
+
+/***/ 83:
+/***/ (function(module, exports) {
+
+module.exports = require("path");
+
+/***/ }),
+
+/***/ 84:
+/***/ (function(module, exports) {
+
+module.exports = require("url");
 
 /***/ })
 

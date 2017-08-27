@@ -60,24 +60,10 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 706);
+/******/ 	return __webpack_require__(__webpack_require__.s = 707);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ 124:
-/***/ (function(module, exports) {
-
-module.exports = require("path");
-
-/***/ }),
-
-/***/ 125:
-/***/ (function(module, exports) {
-
-module.exports = require("url");
-
-/***/ }),
 
 /***/ 137:
 /***/ (function(module, exports) {
@@ -86,14 +72,14 @@ module.exports = require("fs");
 
 /***/ }),
 
-/***/ 26:
+/***/ 20:
 /***/ (function(module, exports) {
 
 module.exports = require("electron");
 
 /***/ }),
 
-/***/ 706:
+/***/ 707:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -179,22 +165,6 @@ module.exports = require("electron");
 /************************************************************************/
 /******/{
 
-  /***/124:
-  /***/function _(module, exports) {
-
-    module.exports = __webpack_require__(124);
-
-    /***/
-  },
-
-  /***/125:
-  /***/function _(module, exports) {
-
-    module.exports = __webpack_require__(125);
-
-    /***/
-  },
-
   /***/137:
   /***/function _(module, exports) {
 
@@ -203,10 +173,10 @@ module.exports = require("electron");
     /***/
   },
 
-  /***/26:
+  /***/20:
   /***/function _(module, exports) {
 
-    module.exports = __webpack_require__(26);
+    module.exports = __webpack_require__(20);
 
     /***/
   },
@@ -248,8 +218,10 @@ module.exports = require("electron");
 
     // PDF作成
 
+    // スクリーンキャプチャ
 
-    var _electron = __webpack_require__(26);
+
+    var _electron = __webpack_require__(20);
 
     var _setAppMenu = __webpack_require__(549);
 
@@ -274,6 +246,10 @@ module.exports = require("electron");
     var _createPDFWindow = __webpack_require__(554);
 
     var _createPDFWindow2 = _interopRequireDefault(_createPDFWindow);
+
+    var _createScreenCaptureWindow = __webpack_require__(555);
+
+    var _createScreenCaptureWindow2 = _interopRequireDefault(_createScreenCaptureWindow);
 
     function _interopRequireDefault(obj) {
       return obj && obj.__esModule ? obj : { default: obj };
@@ -329,6 +305,15 @@ module.exports = require("electron");
     // スクリーンキャプチャ
     function screenCapture() {
       console.log("ScreenCapture");
+      var display = _electron.screen.getAllDisplays()[0];
+      console.log(display); // デバック用
+      var _display$bounds = display.bounds,
+          x = _display$bounds.x,
+          y = _display$bounds.y,
+          width = _display$bounds.width,
+          height = _display$bounds.height;
+
+      (0, _createScreenCaptureWindow2.default)(x, y, width, height);
     }
 
     function exportPDF() {
@@ -376,7 +361,7 @@ module.exports = require("electron");
       value: true
     });
 
-    var _electron = __webpack_require__(26);
+    var _electron = __webpack_require__(20);
 
     function setAppMenu(options) {
       var template = [{
@@ -385,9 +370,9 @@ module.exports = require("electron");
             return options.openFile();
           } }, { label: "Save", accelerator: "CmdOrCtrl+S", click: function click() {
             return options.saveFile();
-          } }, { label: "Save As ...", click: function click() {
+          } }, { label: "Save As ...", accelerator: "Alt+CmdOrCtrl+S", click: function click() {
             return options.saveAsNewFile();
-          } }, { label: "Export PDF", click: function click() {
+          } }, { label: "Export PDF", accelerator: "CmdOrCtrl+P", click: function click() {
             return options.exportPDF();
           } }, { label: "Exit", accelerator: "CmdOrCtrl+Q", role: "quit" }]
       }, {
@@ -434,13 +419,13 @@ module.exports = require("electron");
       };
     }();
 
-    var _electron = __webpack_require__(26);
+    var _electron = __webpack_require__(20);
 
-    var _path = __webpack_require__(124);
+    var _path = __webpack_require__(83);
 
     var _path2 = _interopRequireDefault(_path);
 
-    var _url = __webpack_require__(125);
+    var _url = __webpack_require__(84);
 
     var _url2 = _interopRequireDefault(_url);
 
@@ -522,7 +507,7 @@ module.exports = require("electron");
       value: true
     });
 
-    var _electron = __webpack_require__(26);
+    var _electron = __webpack_require__(20);
 
     function showSaveAsNewFileDialog() {
       return new Promise(function (resolve, reject) {
@@ -557,7 +542,7 @@ module.exports = require("electron");
     });
     exports.default = showOpenFileDialog;
 
-    var _electron = __webpack_require__(26);
+    var _electron = __webpack_require__(20);
 
     // ファイルを開くためのダイアログを呼び出す
     function showOpenFileDialog() {
@@ -691,13 +676,13 @@ module.exports = require("electron");
       };
     }();
 
-    var _electron = __webpack_require__(26);
+    var _electron = __webpack_require__(20);
 
-    var _path = __webpack_require__(124);
+    var _path = __webpack_require__(83);
 
     var _path2 = _interopRequireDefault(_path);
 
-    var _url = __webpack_require__(125);
+    var _url = __webpack_require__(84);
 
     var _url2 = _interopRequireDefault(_url);
 
@@ -761,10 +746,88 @@ module.exports = require("electron");
     exports.default = createPDFWindow;
 
     /***/
+  },
+
+  /***/555:
+  /***/function _(module, exports, __webpack_require__) {
+
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = createScreenCaptureWindow;
+
+    var _electron = __webpack_require__(20);
+
+    var _path = __webpack_require__(83);
+
+    var _path2 = _interopRequireDefault(_path);
+
+    var _url = __webpack_require__(84);
+
+    var _url2 = _interopRequireDefault(_url);
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+
+    function createScreenCaptureWindow(x, y, width, height) {
+      // constructor(props) {
+      // ウインドウの作成
+      window = new _electron.BrowserWindow({
+        frame: false,
+        transparent: true,
+        alwaysOnTop: true,
+        x: x,
+        y: y,
+        width: width,
+        height: height
+      });
+      // }
+    }
+
+    // function createScreenCaptureWindow() {
+    //   return new ScreenCaptureWindow()
+    // }
+
+    // export default createScreenCaptureWindow
+
+    /***/
+  },
+
+  /***/83:
+  /***/function _(module, exports) {
+
+    module.exports = __webpack_require__(83);
+
+    /***/
+  },
+
+  /***/84:
+  /***/function _(module, exports) {
+
+    module.exports = __webpack_require__(84);
+
+    /***/
   }
 
   /******/ });
 //# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 83:
+/***/ (function(module, exports) {
+
+module.exports = require("path");
+
+/***/ }),
+
+/***/ 84:
+/***/ (function(module, exports) {
+
+module.exports = require("url");
 
 /***/ })
 
