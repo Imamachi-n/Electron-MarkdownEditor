@@ -5,4 +5,4 @@ Electronを使ったMarkdownエディタ
 ![](testImg.gif)
 
 # デモ（PDFプレビュー）
-![](testImg-PDF)
+![](testImg-PDF.gif)
