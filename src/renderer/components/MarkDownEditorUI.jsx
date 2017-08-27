@@ -6,6 +6,7 @@ import Editor from './TextEditor'
 import Previewer from './HTMLPreviewer'
 import MaterialUIButtonTest from './MaterialUITest'
 import style from './MarkDownEditorUI.css'
+import previewStyle from './HTMLPreviewer.css'
 
 export default class MarkDownEditorUI extends React.Component {
   constructor(props) {
@@ -38,7 +39,6 @@ export default class MarkDownEditorUI extends React.Component {
     let newValue = curValue.replace(/＃＃＃＃＃＃　/g, '###### ').replace(/＃＃＃＃＃　/g, '##### ').replace(/＃＃＃＃　/g, '#### ').replace(/＃＃＃　/g, '### ').replace(/＃＃　/g, '## ').replace(/＃　/g, '# ')
     newValue = newValue.replace(/＊　/g, '* ')
     this.setState({value: newValue})
-    // console.log(newValue)
   }
 
   render() {
@@ -56,6 +56,7 @@ export default class MarkDownEditorUI extends React.Component {
           <Grid item xs={6}>
             <h3>Output</h3>
             <Previewer 
+              class={previewStyle.previewer}
               value={this.state.value}
             />
           </Grid>

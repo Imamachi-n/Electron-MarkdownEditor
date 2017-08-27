@@ -10,6 +10,8 @@ export default function Editor(props) {
     <AceEditor
       mode='markdown'
       theme='monokai'
+      name='editor'
+      editorProps={{$blockScrolling: true}}
       onChange={props.onChange}
       value={props.value}
     />

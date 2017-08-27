@@ -60,12 +60,40 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 209);
+/******/ 	return __webpack_require__(__webpack_require__.s = 548);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 209:
+/***/ 124:
+/***/ (function(module, exports) {
+
+module.exports = require("path");
+
+/***/ }),
+
+/***/ 125:
+/***/ (function(module, exports) {
+
+module.exports = require("url");
+
+/***/ }),
+
+/***/ 137:
+/***/ (function(module, exports) {
+
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ 26:
+/***/ (function(module, exports) {
+
+module.exports = require("electron");
+
+/***/ }),
+
+/***/ 548:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77,28 +105,34 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 // ファイルを開く
 
+// PDF作成
 
-var _electron = __webpack_require__(23);
 
-var _setAppMenu = __webpack_require__(210);
+var _electron = __webpack_require__(26);
+
+var _setAppMenu = __webpack_require__(549);
 
 var _setAppMenu2 = _interopRequireDefault(_setAppMenu);
 
-var _createMainWindow = __webpack_require__(211);
+var _createMainWindow = __webpack_require__(550);
 
 var _createMainWindow2 = _interopRequireDefault(_createMainWindow);
 
-var _showSaveAsNewFileDialog = __webpack_require__(212);
+var _showSaveAsNewFileDialog = __webpack_require__(551);
 
 var _showSaveAsNewFileDialog2 = _interopRequireDefault(_showSaveAsNewFileDialog);
 
-var _showOpenFileDialog = __webpack_require__(213);
+var _showOpenFileDialog = __webpack_require__(552);
 
 var _showOpenFileDialog2 = _interopRequireDefault(_showOpenFileDialog);
 
-var _createFileManager = __webpack_require__(214);
+var _createFileManager = __webpack_require__(553);
 
 var _createFileManager2 = _interopRequireDefault(_createFileManager);
+
+var _createPDFWindow = __webpack_require__(554);
+
+var _createPDFWindow2 = _interopRequireDefault(_createPDFWindow);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -156,6 +190,11 @@ function screenCapture() {
 
 function exportPDF() {
   console.log("exportPDF");
+  mainWindow.requestText().then(function (text) {
+    var pdfWindow = (0, _createPDFWindow2.default)(text);
+  }).catch(function (error) {
+    console.log(error);
+  });
 }
 
 // Electronを起動したときの処理
@@ -184,7 +223,7 @@ _electron.app.on('activate', function () {
 
 /***/ }),
 
-/***/ 210:
+/***/ 549:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -194,7 +233,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _electron = __webpack_require__(23);
+var _electron = __webpack_require__(26);
 
 function setAppMenu(options) {
   var template = [{
@@ -232,7 +271,7 @@ exports.default = setAppMenu;
 
 /***/ }),
 
-/***/ 211:
+/***/ 550:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -244,13 +283,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _electron = __webpack_require__(23);
+var _electron = __webpack_require__(26);
 
-var _path = __webpack_require__(79);
+var _path = __webpack_require__(124);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _url = __webpack_require__(80);
+var _url = __webpack_require__(125);
 
 var _url2 = _interopRequireDefault(_url);
 
@@ -316,7 +355,7 @@ exports.default = createMainWindow;
 
 /***/ }),
 
-/***/ 212:
+/***/ 551:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -326,7 +365,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _electron = __webpack_require__(23);
+var _electron = __webpack_require__(26);
 
 function showSaveAsNewFileDialog() {
   return new Promise(function (resolve, reject) {
@@ -350,7 +389,7 @@ exports.default = showSaveAsNewFileDialog;
 
 /***/ }),
 
-/***/ 213:
+/***/ 552:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -361,7 +400,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = showOpenFileDialog;
 
-var _electron = __webpack_require__(23);
+var _electron = __webpack_require__(26);
 
 // ファイルを開くためのダイアログを呼び出す
 function showOpenFileDialog() {
@@ -385,7 +424,7 @@ function showOpenFileDialog() {
 
 /***/ }),
 
-/***/ 214:
+/***/ 553:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -397,7 +436,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _fs = __webpack_require__(81);
+var _fs = __webpack_require__(137);
 
 var _fs2 = _interopRequireDefault(_fs);
 
@@ -461,31 +500,80 @@ exports.default = createFileManger;
 
 /***/ }),
 
-/***/ 23:
-/***/ (function(module, exports) {
+/***/ 554:
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = require("electron");
+"use strict";
 
-/***/ }),
 
-/***/ 79:
-/***/ (function(module, exports) {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-module.exports = require("path");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-/***/ }),
+var _electron = __webpack_require__(26);
 
-/***/ 80:
-/***/ (function(module, exports) {
+var _path = __webpack_require__(124);
 
-module.exports = require("url");
+var _path2 = _interopRequireDefault(_path);
 
-/***/ }),
+var _url = __webpack_require__(125);
 
-/***/ 81:
-/***/ (function(module, exports) {
+var _url2 = _interopRequireDefault(_url);
 
-module.exports = require("fs");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var PDFWindow = function () {
+  function PDFWindow(text) {
+    _classCallCheck(this, PDFWindow);
+
+    // ウインドウの作成
+    this.window = new _electron.BrowserWindow({ show: true });
+
+    // pdf.htmlの呼び出し
+    this.window.loadURL(_url2.default.format({
+      pathname: _path2.default.join(__dirname, '../../pdf.html'),
+      protocol: 'file:',
+      slashes: true
+    }));
+
+    // MainプロセスからRendererプロセスへ値を取りに行く
+    _electron.ipcMain.once('REQUEST_TEXT', function (event) {
+      event.returnValue = text;
+    });
+  }
+
+  // PDFを作成
+
+
+  _createClass(PDFWindow, [{
+    key: 'generatePDF',
+    value: function generatePDF() {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        _this.window.webContents.printToPDF({}, function (error, data) {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(data);
+          }
+        });
+      });
+    }
+  }]);
+
+  return PDFWindow;
+}();
+
+function createPDFWindow(contents, fileManager) {
+  return new PDFWindow(contents, fileManager);
+}
+
+exports.default = createPDFWindow;
 
 /***/ })
 

@@ -60,19 +60,40 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 703);
+/******/ 	return __webpack_require__(__webpack_require__.s = 706);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 23:
+/***/ 124:
+/***/ (function(module, exports) {
+
+module.exports = require("path");
+
+/***/ }),
+
+/***/ 125:
+/***/ (function(module, exports) {
+
+module.exports = require("url");
+
+/***/ }),
+
+/***/ 137:
+/***/ (function(module, exports) {
+
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ 26:
 /***/ (function(module, exports) {
 
 module.exports = require("electron");
 
 /***/ }),
 
-/***/ 703:
+/***/ 706:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -152,13 +173,45 @@ module.exports = require("electron");
   /******/__webpack_require__.p = "";
   /******/
   /******/ // Load entry module and return exports
-  /******/return __webpack_require__(__webpack_require__.s = 209);
+  /******/return __webpack_require__(__webpack_require__.s = 548);
   /******/
 })(
 /************************************************************************/
 /******/{
 
-  /***/209:
+  /***/124:
+  /***/function _(module, exports) {
+
+    module.exports = __webpack_require__(124);
+
+    /***/
+  },
+
+  /***/125:
+  /***/function _(module, exports) {
+
+    module.exports = __webpack_require__(125);
+
+    /***/
+  },
+
+  /***/137:
+  /***/function _(module, exports) {
+
+    module.exports = __webpack_require__(137);
+
+    /***/
+  },
+
+  /***/26:
+  /***/function _(module, exports) {
+
+    module.exports = __webpack_require__(26);
+
+    /***/
+  },
+
+  /***/548:
   /***/function _(module, exports, __webpack_require__) {
 
     "use strict";
@@ -193,28 +246,34 @@ module.exports = require("electron");
 
     // ファイルを開く
 
+    // PDF作成
 
-    var _electron = __webpack_require__(23);
 
-    var _setAppMenu = __webpack_require__(210);
+    var _electron = __webpack_require__(26);
+
+    var _setAppMenu = __webpack_require__(549);
 
     var _setAppMenu2 = _interopRequireDefault(_setAppMenu);
 
-    var _createMainWindow = __webpack_require__(211);
+    var _createMainWindow = __webpack_require__(550);
 
     var _createMainWindow2 = _interopRequireDefault(_createMainWindow);
 
-    var _showSaveAsNewFileDialog = __webpack_require__(212);
+    var _showSaveAsNewFileDialog = __webpack_require__(551);
 
     var _showSaveAsNewFileDialog2 = _interopRequireDefault(_showSaveAsNewFileDialog);
 
-    var _showOpenFileDialog = __webpack_require__(213);
+    var _showOpenFileDialog = __webpack_require__(552);
 
     var _showOpenFileDialog2 = _interopRequireDefault(_showOpenFileDialog);
 
-    var _createFileManager = __webpack_require__(214);
+    var _createFileManager = __webpack_require__(553);
 
     var _createFileManager2 = _interopRequireDefault(_createFileManager);
+
+    var _createPDFWindow = __webpack_require__(554);
+
+    var _createPDFWindow2 = _interopRequireDefault(_createPDFWindow);
 
     function _interopRequireDefault(obj) {
       return obj && obj.__esModule ? obj : { default: obj };
@@ -274,6 +333,11 @@ module.exports = require("electron");
 
     function exportPDF() {
       console.log("exportPDF");
+      mainWindow.requestText().then(function (text) {
+        var pdfWindow = (0, _createPDFWindow2.default)(text);
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
 
     // Electronを起動したときの処理
@@ -303,7 +367,7 @@ module.exports = require("electron");
     /***/
   },
 
-  /***/210:
+  /***/549:
   /***/function _(module, exports, __webpack_require__) {
 
     "use strict";
@@ -312,7 +376,7 @@ module.exports = require("electron");
       value: true
     });
 
-    var _electron = __webpack_require__(23);
+    var _electron = __webpack_require__(26);
 
     function setAppMenu(options) {
       var template = [{
@@ -351,7 +415,7 @@ module.exports = require("electron");
     /***/
   },
 
-  /***/211:
+  /***/550:
   /***/function _(module, exports, __webpack_require__) {
 
     "use strict";
@@ -370,13 +434,13 @@ module.exports = require("electron");
       };
     }();
 
-    var _electron = __webpack_require__(23);
+    var _electron = __webpack_require__(26);
 
-    var _path = __webpack_require__(79);
+    var _path = __webpack_require__(124);
 
     var _path2 = _interopRequireDefault(_path);
 
-    var _url = __webpack_require__(80);
+    var _url = __webpack_require__(125);
 
     var _url2 = _interopRequireDefault(_url);
 
@@ -449,7 +513,7 @@ module.exports = require("electron");
     /***/
   },
 
-  /***/212:
+  /***/551:
   /***/function _(module, exports, __webpack_require__) {
 
     "use strict";
@@ -458,7 +522,7 @@ module.exports = require("electron");
       value: true
     });
 
-    var _electron = __webpack_require__(23);
+    var _electron = __webpack_require__(26);
 
     function showSaveAsNewFileDialog() {
       return new Promise(function (resolve, reject) {
@@ -483,7 +547,7 @@ module.exports = require("electron");
     /***/
   },
 
-  /***/213:
+  /***/552:
   /***/function _(module, exports, __webpack_require__) {
 
     "use strict";
@@ -493,7 +557,7 @@ module.exports = require("electron");
     });
     exports.default = showOpenFileDialog;
 
-    var _electron = __webpack_require__(23);
+    var _electron = __webpack_require__(26);
 
     // ファイルを開くためのダイアログを呼び出す
     function showOpenFileDialog() {
@@ -518,7 +582,7 @@ module.exports = require("electron");
     /***/
   },
 
-  /***/214:
+  /***/553:
   /***/function _(module, exports, __webpack_require__) {
 
     "use strict";
@@ -537,7 +601,7 @@ module.exports = require("electron");
       };
     }();
 
-    var _fs = __webpack_require__(81);
+    var _fs = __webpack_require__(137);
 
     var _fs2 = _interopRequireDefault(_fs);
 
@@ -608,61 +672,99 @@ module.exports = require("electron");
     /***/
   },
 
-  /***/23:
-  /***/function _(module, exports) {
+  /***/554:
+  /***/function _(module, exports, __webpack_require__) {
 
-    module.exports = __webpack_require__(23);
+    "use strict";
 
-    /***/
-  },
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
 
-  /***/79:
-  /***/function _(module, exports) {
+    var _createClass = function () {
+      function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+          var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+      }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+      };
+    }();
 
-    module.exports = __webpack_require__(79);
+    var _electron = __webpack_require__(26);
 
-    /***/
-  },
+    var _path = __webpack_require__(124);
 
-  /***/80:
-  /***/function _(module, exports) {
+    var _path2 = _interopRequireDefault(_path);
 
-    module.exports = __webpack_require__(80);
+    var _url = __webpack_require__(125);
 
-    /***/
-  },
+    var _url2 = _interopRequireDefault(_url);
 
-  /***/81:
-  /***/function _(module, exports) {
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
 
-    module.exports = __webpack_require__(81);
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    }
+
+    var PDFWindow = function () {
+      function PDFWindow(text) {
+        _classCallCheck(this, PDFWindow);
+
+        // ウインドウの作成
+        this.window = new _electron.BrowserWindow({ show: true });
+
+        // pdf.htmlの呼び出し
+        this.window.loadURL(_url2.default.format({
+          pathname: _path2.default.join(__dirname, '../../pdf.html'),
+          protocol: 'file:',
+          slashes: true
+        }));
+
+        // MainプロセスからRendererプロセスへ値を取りに行く
+        _electron.ipcMain.once('REQUEST_TEXT', function (event) {
+          event.returnValue = text;
+        });
+      }
+
+      // PDFを作成
+
+
+      _createClass(PDFWindow, [{
+        key: 'generatePDF',
+        value: function generatePDF() {
+          var _this = this;
+
+          return new Promise(function (resolve, reject) {
+            _this.window.webContents.printToPDF({}, function (error, data) {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(data);
+              }
+            });
+          });
+        }
+      }]);
+
+      return PDFWindow;
+    }();
+
+    function createPDFWindow(contents, fileManager) {
+      return new PDFWindow(contents, fileManager);
+    }
+
+    exports.default = createPDFWindow;
 
     /***/
   }
 
   /******/ });
 //# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 79:
-/***/ (function(module, exports) {
-
-module.exports = require("path");
-
-/***/ }),
-
-/***/ 80:
-/***/ (function(module, exports) {
-
-module.exports = require("url");
-
-/***/ }),
-
-/***/ 81:
-/***/ (function(module, exports) {
-
-module.exports = require("fs");
 
 /***/ })
 

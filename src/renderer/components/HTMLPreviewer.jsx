@@ -3,7 +3,7 @@ import Remarkable from 'remarkable'
 import hljs from 'highlight.js'
 import style from './HTMLPreviewer.css'
 
-export default function Previewer(prop) {
+export default function Previewer(props) {
   function getRawMarkup() {
     var md = new Remarkable('full', {
       html:         false,        // Enable HTML tags in source
@@ -38,16 +38,16 @@ export default function Previewer(prop) {
     })
     
     return {
-      __html: md.render(prop.value)
+      __html: md.render(props.value)
     }
   }
 
   return (
     <div className={style.previewerBody}>
       <div 
-      className={style.previewer} 
-      dangerouslySetInnerHTML={getRawMarkup()}
-    />
+        className={props.class}
+        dangerouslySetInnerHTML={getRawMarkup()}
+      />
     </div>
   )
 }

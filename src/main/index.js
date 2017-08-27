@@ -8,6 +8,8 @@ import showSaveAsNewFileDialog from './showSaveAsNewFileDialog'
 // ファイルを開く
 import showOpenFileDialog from './showOpenFileDialog'
 import createFileManager from './createFileManager'
+// PDF作成
+import createPDFWindow from './createPDFWindow'
 
 // ガーベジコレクションによりウインドウが閉じないように、
 // BrowserWindowインスタンスをグローバル宣言
@@ -58,6 +60,13 @@ function screenCapture() {
 
 function exportPDF() {
   console.log("exportPDF")
+  mainWindow.requestText()
+  .then((text) => {
+    const pdfWindow = createPDFWindow(text)
+  })
+  .catch((error) => {
+    console.log(error)
+  })
 }
 
 // Electronを起動したときの処理
